@@ -37,3 +37,7 @@
 [![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/rei-2/Amalgam)](/../../commits/)
 
 [VAC bypass](https://github.com/danielkrupinski/VAC-Bypass-Loader) and [Xenos](https://github.com/DarthTon/Xenos/releases) recommended
+
+# CMakeList
+
+Requires NuGet: `winget install -e --id Microsoft.NuGet`
