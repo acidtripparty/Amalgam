@@ -245,6 +245,7 @@ void CMenu::MenuAimbot(int iTab)
 					{
 						FSlider(Vars::Aimbot::Projectile::AutoRelease);
 					}
+					FToggle(Vars::Aimbot::Projectile::WaitForTarget, FToggleEnum::Right);
 					PopTransparent();
 				} EndSection();
 				if (Vars::Debug::Options.Value)

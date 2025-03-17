@@ -70,6 +70,7 @@ file(STRINGS "${CMAKE_BINARY_DIR}/lib_names.txt" lib_names)
 link_directories(${lib_roots})
 
 add_library(dll SHARED ${src_files})
+target_compile_definitions(dll PRIVATE __CONFIGURATION__=\"$<CONFIG>\")
 target_link_libraries(dll ${lib_names})
 target_include_directories(
     dll
