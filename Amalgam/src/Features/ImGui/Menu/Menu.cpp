@@ -217,6 +217,7 @@ void CMenu::MenuAimbot(int iTab)
 				PushTransparent(!FGet(Vars::Aimbot::Projectile::AutoRelease));
 					FSlider("Auto release", Vars::Aimbot::Projectile::AutoRelease, 0.f, 100.f, 5.f, "%g%%", FSlider_Clamp | FSlider_Precision);
 				PopTransparent();
+				FToggle("Wait for target", Vars::Aimbot::Projectile::WaitForTarget, FToggle_Left);
 			} EndSection();
 			if (Vars::Debug::Options.Value)
 			{

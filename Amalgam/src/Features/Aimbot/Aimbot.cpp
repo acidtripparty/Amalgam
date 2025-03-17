@@ -70,12 +70,20 @@ void CAimbot::RunMain(CTFPlayer* pLocal, CTFWeaponBase* pWeapon, CUserCmd* pCmd)
 	if (abs(G::AimPosition.second - I::GlobalVars->tickcount) > 32)
 		G::AimPosition = { {}, 0 };
 
-	if (pCmd->weaponselect)
+	if (pCmd->weaponselect) {
+		if (Vars::Aimbot::Projectile::WaitForTarget.Value)
+			pCmd->buttons &= ~IN_ATTACK;
+
 		return;
+	}
 
 	F::AutoRocketJump.Run(pLocal, pWeapon, pCmd);
-	if (!ShouldRun(pLocal, pWeapon))
+	if (!ShouldRun(pLocal, pWeapon)) {
+		if (Vars::Aimbot::Projectile::WaitForTarget.Value)
+			pCmd->buttons &= ~IN_ATTACK;
+
 		return;
+	}
 
 	F::AutoDetonate.Run(pLocal, pWeapon, pCmd);
 	F::AutoAirblast.Run(pLocal, pWeapon, pCmd);

@@ -161,6 +161,7 @@ namespace Vars
 			CVar(AutodetRadius, 90.f)
 			CVar(SplashRadius, 90.f)
 			CVar(AutoRelease, 0.f)
+			CVar(WaitForTarget, false)
 
 			CVar(GroundSamples, 33, DEBUGVAR)
 			CVar(GroundStraightFuzzyValue, 100.f, DEBUGVAR)
