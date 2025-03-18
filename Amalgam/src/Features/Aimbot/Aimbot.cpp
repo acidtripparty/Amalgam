@@ -36,6 +36,7 @@ void CAimbot::RunAimbot(CTFPlayer* pLocal, CTFWeaponBase* pWeapon, CUserCmd* pCm
 {
 	m_bRunningSecondary = bSecondaryType;
 	EWeaponType eWeaponType = !m_bRunningSecondary ? G::PrimaryWeaponType : G::SecondaryWeaponType;
+	G::IsAimbotPrimary = !m_bRunningSecondary;
 
 	bool bOriginal;
 	if (m_bRunningSecondary)
@@ -54,6 +55,9 @@ void CAimbot::RunAimbot(CTFPlayer* pLocal, CTFWeaponBase* pWeapon, CUserCmd* pCm
 
 void CAimbot::RunMain(CTFPlayer* pLocal, CTFWeaponBase* pWeapon, CUserCmd* pCmd)
 {
+	if (Vars::Aimbot::General::AimType.Value == Vars::Aimbot::General::AimTypeEnum::Off)
+		return;
+
 	if (F::AimbotProjectile.m_iLastTickCancel)
 	{
 		pCmd->weaponselect = F::AimbotProjectile.m_iLastTickCancel;
@@ -66,20 +70,12 @@ void CAimbot::RunMain(CTFPlayer* pLocal, CTFWeaponBase* pWeapon, CUserCmd* pCmd)
 	if (abs(G::AimPoint.m_iTickCount - I::GlobalVars->tickcount) > G::AimPoint.m_iDuration)
 		G::AimPoint = {};
 
-	if (pCmd->weaponselect) {
-		if (Vars::Aimbot::Projectile::WaitForTarget.Value)
-			pCmd->buttons &= ~IN_ATTACK;
-
+	if (pCmd->weaponselect)
 		return;
-	}
 
 	F::AutoRocketJump.Run(pLocal, pWeapon, pCmd);
-	if (!ShouldRun(pLocal, pWeapon)) {
-		if (Vars::Aimbot::Projectile::WaitForTarget.Value)
-			pCmd->buttons &= ~IN_ATTACK;
-
+	if (!ShouldRun(pLocal, pWeapon))
 		return;
-	}
 
 	F::AutoDetonate.Run(pLocal, pWeapon, pCmd);
 	F::AutoAirblast.Run(pLocal, pWeapon, pCmd);

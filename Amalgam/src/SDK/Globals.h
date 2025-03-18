@@ -64,6 +64,9 @@ namespace G
 	inline bool Reloading = false;
 	inline bool CanPrimaryAttack = false;
 	inline bool CanSecondaryAttack = false;
+	// Used for checking if current Aimbot call
+	// is for Primary or Secondary attack
+	inline bool IsAimbotPrimary = true;
 	inline bool CanHeadshot = false;
 	inline bool Throwing = false;
 	inline float Lerp = 0.015f;

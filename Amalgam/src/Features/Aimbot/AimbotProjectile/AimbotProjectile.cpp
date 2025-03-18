@@ -1941,9 +1941,14 @@ void CAimbotProjectile::Run(CTFPlayer* pLocal, CTFWeaponBase* pWeapon, CUserCmd*
 			CancelShot(pLocal, pWeapon, pCmd, m_iLastTickCancel);
 	}
 	
-	if (G::CanPrimaryAttack && (pCmd->buttons & IN_ATTACK) && !bSuccess && Vars::Aimbot::Projectile::WaitForTarget.Value) {
-		pCmd->buttons &= ~IN_ATTACK;
+	if (Vars::Aimbot::Projectile::WaitForTarget.Value && !bSuccess) {
+		if (G::IsAimbotPrimary && (pCmd->buttons & IN_ATTACK)) {
+			pCmd->buttons &= ~IN_ATTACK;
+		} else if (!G::IsAimbotPrimary && (pCmd->buttons & IN_ATTACK2)) {
+			pCmd->buttons &= ~IN_ATTACK2;
+		}
 	}
+	
 
 	m_bLastTickHeld = Vars::Aimbot::General::AimType.Value;
 }
