@@ -1200,6 +1200,7 @@ int CAimbotProjectile::CanHit(Target_t& tTarget, CTFPlayer* pLocal, CTFWeaponBas
 	
 	Vec3 vAngleTo, vPredicted, vTarget;
 	int iLowestPriority = std::numeric_limits<int>::max(); float flLowestDist = std::numeric_limits<float>::max();
+	int iLowestTickDelta = std::numeric_limits<int>::max();
 	int iLowestSmoothPriority = iLowestPriority; float flLowestSmoothDist = flLowestDist;
 	for (int i = 1 - TIME_TO_TICKS(tInfo.m_flLatency); i <= iMaxTime; i++)
 	{
@@ -1257,8 +1258,15 @@ int CAimbotProjectile::CanHit(Target_t& tTarget, CTFPlayer* pLocal, CTFWeaponBas
 				vPoint.m_vPoint = PullPoint(vPoint.m_vPoint, tInfo.m_vLocalEye, tInfo, tTarget.m_pEntity->m_vecMins() + projInfo.m_vHull, tTarget.m_pEntity->m_vecMaxs() - projInfo.m_vHull, tTarget.m_vPos);
 				//vPoint.m_vPoint = PullPoint(vPoint.m_vPoint, tInfo.m_vLocalEye, tInfo, tTarget.m_pEntity->m_vecMins(), tTarget.m_pEntity->m_vecMaxs(), tTarget.m_vPos);
 
+			// iTickPriority is used for calculating the best tick to aim for
+			// after iPriority has been used to select the target.
+			// iMaxTime multiplier is used to ensure iTickDelta priorty never takes precedence
+			// over iPriority
+			// iTickPriority = iPriority * iMaxTime + iTickDelta
+
+			int iTickPriority = iPriority * iMaxTime;
 			float flDist = bSplash ? tTarget.m_vPos.DistTo(vPoint.m_vPoint) : flLowestDist;
-			bool bPriority = bSplash ? iPriority <= iLowestPriority : iPriority < iLowestPriority;
+			bool bPriority = bSplash ? iTickPriority <= iLowestPriority : iTickPriority < iLowestPriority;
 			bool bTime = bSplash || tInfo.m_iPrimeTime < i || storage.m_MoveData.m_vecVelocity.IsZero();
 			bool bDist = !bSplash || flDist < flLowestDist;
 			if (!bSplash && !bPriority)
@@ -1267,6 +1275,11 @@ int CAimbotProjectile::CanHit(Target_t& tTarget, CTFPlayer* pLocal, CTFWeaponBas
 				continue;
 
 			CalculateAngle(tInfo.m_vLocalEye, vPoint.m_vPoint, tInfo, i, vPoint.m_Solution);
+			iTickPriority += vPoint.m_Solution.m_iTickDelta;
+
+			if (iTickPriority > iLowestPriority)
+				continue;
+
 			if (!bSplash && (vPoint.m_Solution.m_iCalculated == 1 || vPoint.m_Solution.m_iCalculated == 3))
 				mDirectPoints.erase(iIndex);
 			if (vPoint.m_Solution.m_iCalculated != 1)
@@ -1284,7 +1297,7 @@ int CAimbotProjectile::CanHit(Target_t& tTarget, CTFPlayer* pLocal, CTFWeaponBas
 
 			if (TestAngle(pLocal, pWeapon, tTarget, vPoint.m_vPoint, vAngles, i, bSplash, &bHitSolid, &vProjLines))
 			{
-				iLowestPriority = iPriority; flLowestDist = flDist;
+				iLowestPriority = iTickPriority; flLowestDist = flDist;
 				vAngleTo = vAngles, vPredicted = tTarget.m_vPos, vTarget = vOriginalPoint;
 				*pTimeTo = vPoint.m_Solution.m_flTime + tInfo.m_flLatency;
 				*pPlayerPath = storage.m_vPath;

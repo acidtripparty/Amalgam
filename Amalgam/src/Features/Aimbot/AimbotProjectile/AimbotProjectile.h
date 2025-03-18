@@ -11,6 +11,7 @@ struct Solution_t
 	float m_flYaw = 0.f;
 	float m_flTime = 0.f;
 	int m_iCalculated = 0;
+	int m_iTickDelta = 0;
 };
 struct Point_t
 {
