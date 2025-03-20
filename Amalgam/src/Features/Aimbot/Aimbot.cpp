@@ -29,6 +29,28 @@ bool CAimbot::ShouldRun(CTFPlayer* pLocal, CTFWeaponBase* pWeapon)
 	if (I::EngineVGui->IsGameUIVisible())
 		return false;
 
+	// Someone is speccing us in first person. Skip aimbot.
+	for (auto pEntity : H::Entities.GetGroup(EGroupType::PLAYERS_ALL))
+	{
+		auto pPlayer = pEntity->As<CTFPlayer>();
+		auto pObserverTarget = pPlayer->m_hObserverTarget().Get();
+		int iObserverMode = pPlayer->m_iObserverMode();
+
+		if (pObserverTarget == pLocal && iObserverMode == OBS_MODE_FIRSTPERSON)
+			return false;
+
+	// Someone is speccing us in first person. Skip aimbot.
+	for (auto pEntity : H::Entities.GetGroup(EGroupType::PLAYERS_ALL))
+	{
+		auto pPlayer = pEntity->As<CTFPlayer>();
+		auto pObserverTarget = pPlayer->m_hObserverTarget().Get();
+		int iObserverMode = pPlayer->m_iObserverMode();
+
+		if (pObserverTarget == pLocal && iObserverMode == OBS_MODE_FIRSTPERSON)
+			return false;
+	}
+	}
+
 	return true;
 }
 
