@@ -12,6 +12,14 @@ void CAimbotGlobal::SortTargets(std::vector<Target_t>& vTargets, int iMethod)
 			{
 			case Vars::Aimbot::General::TargetSelectionEnum::FOV: return a.m_flFOVTo < b.m_flFOVTo;
 			case Vars::Aimbot::General::TargetSelectionEnum::Distance: return a.m_flDistTo < b.m_flDistTo;
+			case Vars::Aimbot::General::TargetSelectionEnum::MaxHealth:
+				if (a.m_iHealth == -1 && b.m_iHealth != -1) return false;
+				if (a.m_iHealth != -1 && b.m_iHealth == -1) return true;
+				return a.m_iHealth > b.m_iHealth;
+			case Vars::Aimbot::General::TargetSelectionEnum::MinHealth:
+				if (a.m_iHealth == -1 && b.m_iHealth != -1) return false;
+				if (a.m_iHealth != -1 && b.m_iHealth == -1) return true;
+				return a.m_iHealth < b.m_iHealth;
 			default: return false;
 			}
 		});
