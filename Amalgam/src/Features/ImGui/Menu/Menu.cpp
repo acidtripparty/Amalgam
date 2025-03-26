@@ -123,7 +123,7 @@ void CMenu::MenuAimbot(int iTab)
 			if (Section("General"))
 			{
 				FDropdown("Aim type", Vars::Aimbot::General::AimType, { "Off", "Plain", "Smooth", "Silent", "Locking", "Assistive" }, {}, FDropdown_Left);
-				FDropdown("Target selection", Vars::Aimbot::General::TargetSelection, { "FOV", "Distance" }, {}, FDropdown_Right);
+				FDropdown("Target selection", Vars::Aimbot::General::TargetSelection, { "FOV", "Distance", "Max. Health", "Min. Health" }, {}, FDropdown_Right);
 				FDropdown("Target", Vars::Aimbot::General::Target, { "Players", "Sentries", "Dispensers", "Teleporters", "Stickies", "NPCs", "Bombs" }, {}, FDropdown_Left | FDropdown_Multi);
 				FDropdown("Ignore", Vars::Aimbot::General::Ignore, { "Friends", "Party", "Invulnerable", "Cloaked", "Unsimulated players", "Dead Ringer", "Vaccinator", "Disguised", "Taunting" }, {}, FDropdown_Right | FDropdown_Multi);
 				FSlider("Aim FOV", Vars::Aimbot::General::AimFOV, 0.f, 180.f, 1.f, "%g", FSlider_Clamp | FSlider_Precision);

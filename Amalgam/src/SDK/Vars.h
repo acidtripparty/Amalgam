@@ -118,7 +118,7 @@ namespace Vars
 	NAMESPACE_BEGIN(Aimbot)
 		SUBNAMESPACE_BEGIN(General)
 			CVarEnum(AimType, 0, NONE, Off, Plain, Smooth, Silent, Locking, Assistive)
-			CVarEnum(TargetSelection, 0, NONE, FOV, Distance)
+			CVarEnum(TargetSelection, 0, NONE, FOV, Distance, MaxHealth, MinHealth)
 			CVarEnum(Target, 0b0000001, NONE, Players = 1 << 0, Sentry = 1 << 1, Dispenser = 1 << 2, Teleporter = 1 << 3, Stickies = 1 << 4, NPCs = 1 << 5, Bombs = 1 << 6)
 			CVarEnum(Ignore, 0b000000000, NONE, Friends = 1 << 0, Party = 1 << 1, Invulnerable = 1 << 2, Cloaked = 1 << 3, Unsimulated = 1 << 4, DeadRinger = 1 << 5, Vaccinator = 1 << 6, Disguised = 1 << 7, Taunting = 1 << 8)
 			CVar(AimFOV, 30.f)
