@@ -947,7 +947,10 @@ void CAimbotProjectile::CalculateAngle(const Vec3& vLocalPos, const Vec3& vTarge
 
 	int iTimeTo = int(out.m_flTime / TICK_INTERVAL) + 1;
 	if (out.m_iCalculated = iTimeTo > iSimTime ? CalculatedEnum::Time : CalculatedEnum::Pending)
+	{
+		out.m_iTickDelta = std::abs(iTimeTo - iSimTime);
 		return;
+	}
 
 	int iFlags = (bAccuracy ? ProjSimEnum::Trace : ProjSimEnum::None) | ProjSimEnum::NoRandomAngles | ProjSimEnum::PredictCmdNum;
 #ifdef SPLASH_DEBUG6
@@ -1041,6 +1044,7 @@ void CAimbotProjectile::CalculateAngle(const Vec3& vLocalPos, const Vec3& vTarge
 	}
 
 	iTimeTo = int(out.m_flTime / TICK_INTERVAL) + 1;
+	out.m_iTickDelta = std::abs(iTimeTo - iSimTime);
 	out.m_iCalculated = iTimeTo > iSimTime ? CalculatedEnum::Time : CalculatedEnum::Good;
 }
 
