@@ -708,6 +708,7 @@ void CAimbotProjectile::CalculateAngle(const Vec3& vLocalPos, const Vec3& vTarge
 	int iTimeTo = int(out.m_flTime / TICK_INTERVAL) + 1;
 	if (iTimeTo > iSimTime ? 2 : 0)
 	{
+		out.m_iTickDelta = std::abs(iTimeTo - iSimTime);
 		out.m_iCalculated = 2; return;
 	}
 
@@ -810,6 +811,7 @@ void CAimbotProjectile::CalculateAngle(const Vec3& vLocalPos, const Vec3& vTarge
 	}
 
 	iTimeTo = int(out.m_flTime / TICK_INTERVAL) + 1;
+	out.m_iTickDelta = std::abs(iTimeTo - iSimTime);
 	out.m_iCalculated = iTimeTo > iSimTime ? 2 : 1;
 }
 
