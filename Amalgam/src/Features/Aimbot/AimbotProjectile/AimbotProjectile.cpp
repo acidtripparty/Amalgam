@@ -1406,6 +1406,7 @@ int CAimbotProjectile::CanHit(Target_t& tTarget, CTFPlayer* pLocal, CTFWeaponBas
 	int iLowestPriority = std::numeric_limits<int>::max(); float flLowestDist = std::numeric_limits<float>::max();
 	int iLowestTickDelta = std::numeric_limits<int>::max();
 	int iLowestSmoothPriority = iLowestPriority; float flLowestSmoothDist = flLowestDist;
+	Point_t vBestPoint;
 	for (int i = 1 - TIME_TO_TICKS(tInfo.m_flLatency); i <= iMaxTime; i++)
 	{
 		if (!tStorage.m_bFailed)
@@ -1513,7 +1514,10 @@ int CAimbotProjectile::CanHit(Target_t& tTarget, CTFPlayer* pLocal, CTFWeaponBas
 
 			if (TestAngle(pLocal, pWeapon, tTarget, vPoint.m_vPoint, vAngles, i, bSplash, &bHitSolid, &vProjLines))
 			{
-				iLowestPriority = iTickPriority; flLowestDist = flDist;
+				vBestPoint = vPoint;
+				iLowestPriority = iTickPriority; 
+				iLowestTickDelta = vPoint.m_Solution.m_iTickDelta;
+				flLowestDist = flDist;
 				vAngleTo = vAngles, vPredicted = tTarget.m_vPos, vTarget = vOriginalPoint;
 				*pTimeTo = vPoint.m_Solution.m_flTime + tInfo.m_flLatency;
 				*pPlayerPath = tStorage.m_vPath;
